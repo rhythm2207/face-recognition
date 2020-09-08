@@ -1,0 +1,10 @@
+.custom {
+  font-size: 1.5rem;
+}
+nav {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  float: right;
+  padding: 20px;
+}
