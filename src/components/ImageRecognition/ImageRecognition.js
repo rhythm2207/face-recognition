@@ -6,7 +6,7 @@ const ImageRecognition = ({ imageurl, box }) => {
         <div className='image-container' >
             <img id='inputImage' src={imageurl} alt="" width='500px' height='auto' />
 
-            {box.forEach(element => (
+            {box.map(element => (
                 <div className="bounding-box" style={{ top: element.topRow, right: element.rightCol, bottom: element.bottomRow, left: element.leftCol }}>
                 </div>
             ))
