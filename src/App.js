@@ -26,8 +26,6 @@ const particleoptions = {
   }
 }
 
-var users_box = [];
-
 class App extends React.Component {
 
   constructor() {
@@ -40,19 +38,22 @@ class App extends React.Component {
     }
   }
   calculateFaceLocation = (data) => {
-    for (var i = 0; i < data.outputs[0].data.regions.length; i++) {
-      const clarifaiFace = data.outputs[0].data.regions[i].region_info.bounding_box;
-      const image = document.getElementById('inputImage')
-      const height = Number(image.height)
-      const width = Number(image.width)
-      users_box[i] = {
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    const clarifaiFacesRegions = data.outputs[0].data.regions;
+
+    const boundingBoxes = clarifaiFacesRegions.map(region => {
+      const clarifaiFace = region.region_info.bounding_box;
+      return {
         leftCol: clarifaiFace.left_col * width,
         topRow: clarifaiFace.top_row * height,
-        rightCol: width - (clarifaiFace.right_col * width),
-        bottomRow: height - (clarifaiFace.bottom_row * height)
-      }
-    }
-    return users_box;
+        rightCol: width - clarifaiFace.right_col * width,
+        bottomRow: height - clarifaiFace.bottom_row * height,
+      };
+    });
+    return boundingBoxes;
   }
 
   displayFace = (box) => {
