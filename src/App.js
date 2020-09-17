@@ -5,14 +5,11 @@ import Logo from './components/Logo/Logo'
 import ImageForm from './components/ImageForm/ImageForm'
 import Rank from './components/Rank/Rank'
 import Particles from 'react-particles-js'
-import Clarifai from 'clarifai'
 import ImageRecognition from './components/ImageRecognition/ImageRecognition'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 
-const app = new Clarifai.App({
-  apiKey: '296ec1710ada4d16bbad29b9ae8f872a'
-});
+
 
 const particleoptions = {
   particles: {
@@ -26,6 +23,20 @@ const particleoptions = {
   }
 }
 
+const initialState = {
+  input: '',
+  imageurl: '',
+  box: [],
+  route: 'signin',
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  }
+}
+
 class App extends React.Component {
 
   constructor() {
@@ -34,11 +45,31 @@ class App extends React.Component {
       input: '',
       imageurl: '',
       box: [],
-      route: 'signin'
+      route: 'signin',
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: '',
+      }
     }
   }
+
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+      }
+    })
+  }
+
   calculateFaceLocation = (data) => {
-    const image = document.getElementById('inputimage');
+    const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
 
@@ -58,9 +89,7 @@ class App extends React.Component {
 
   displayFace = (box) => {
     this.setState({ box: box })
-    console.log(box)
   }
-
 
   onInputChange = (event) => {
     this.setState({ input: event.target.value })
@@ -68,15 +97,41 @@ class App extends React.Component {
 
   onButtonSubmit = () => {
     this.setState({ imageurl: this.state.input })
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-      .then(response => this.displayFace(this.calculateFaceLocation(response)))
-      .catch(err => console.log(err));
+    console.log(this.state.input);
+    fetch('http://localhost:3000/apicall', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    }).then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count }))
+            })
+            .catch(console.log())
+        }
+        this.displayFace(this.calculateFaceLocation(response))
+      }).catch(err => console.log(err));
   }
 
   onRouteChange = (route) => {
-    this.setState({ route: route })
-  }
 
+    if (route === 'signin')
+      this.setState(initialState)
+    else {
+      this.setState({ route: route })
+    }
+  }
 
   render() {
     return (
@@ -88,20 +143,19 @@ class App extends React.Component {
           ? <div>
             <Navigation onRouteChange={this.onRouteChange} />
             <Logo />
-            <Rank />
+            <Rank name={this.state.user.name} entries={this.state.user.entries} />
             <ImageForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
             <ImageRecognition box={this.state.box} imageurl={this.state.imageurl} />
           </div>
 
           : (this.state.route === 'signin'
-            ? <Login onRouteChange={this.onRouteChange} />
-            : <Register onRouteChange={this.onRouteChange} />
+            ? <Login onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
+            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           )
         }
       </div>
     )
   }
-
 }
 
 export default App;

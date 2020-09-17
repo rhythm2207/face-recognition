@@ -6,7 +6,7 @@ body {
 .login-form {
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.1);
-  width: 30%;
+  width: 25%;
   height: 450px;
   margin: 0 auto;
   margin-top: 10%;
@@ -14,11 +14,13 @@ body {
 }
 .type-box {
   padding: 10px 15px;
-  margin-top: 7%;
   outline: none;
 }
 .credentials {
   font-size: 1.2rem;
+}
+.field {
+  margin-top: 20px;
 }
 
 .button-sign {
@@ -29,4 +31,19 @@ body {
   font-size: 1.1rem;
   cursor: pointer;
   text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .login-form {
+    width: 60%;
+    height: 500px;
+  }
+
+  .type-box {
+    width: 90%;
+  }
+
+  .button-register {
+    width: 50%;
+  }
 }

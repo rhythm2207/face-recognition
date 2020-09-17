@@ -3,25 +3,27 @@
 body {
   font-family: "Merriweather", serif;
 }
-.login-form {
+.register-form {
   border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.1);
-  width: 30%;
-  height: 450px;
+  box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.1);
+  width: 25%;
+  height: 500px;
   margin: 0 auto;
   margin-top: 10%;
   padding: 3%;
 }
+.field {
+  margin-top: 20px;
+}
 .type-box {
   padding: 10px 15px;
-  margin-top: 7%;
   outline: none;
 }
 .credentials {
   font-size: 1.2rem;
 }
 
-.button-sign {
+.button-register {
   cursor: pointer;
 }
 
@@ -29,4 +31,19 @@ body {
   font-size: 1.1rem;
   cursor: pointer;
   text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .register-form {
+    width: 60%;
+    height: 600px;
+  }
+
+  .type-box {
+    width: 90%;
+  }
+
+  .button-register {
+    width: 50%;
+  }
 }
