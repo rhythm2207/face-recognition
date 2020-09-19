@@ -42,14 +42,14 @@ class Login extends React.Component {
                     <h1>SignIn</h1>
                     <div className="credentials">
                         <div className="field">
-                            Username : <input className='type-box' type="text" onChange={this.onEmailChange} />
+                            Email : <input className='type-box' type="text" onChange={this.onEmailChange} />
                         </div>
                         <div className="field">
                             Password : <input onChange={this.onPasswordChange} className='type-box'
                                 type="password" />
                         </div>
-                        <div className="field">
-                            <input type='button' value='SignIn' className='type-box button-sign' onClick={this.onSubmitSignIn} />
+                        <div className="button-sign">
+                            <input type='button' value='SignIn' className='type-box button' onClick={this.onSubmitSignIn} />
                         </div>
                     </div>
                     <p className='register' onClick={() => onRouteChange('register')} >Register</p>

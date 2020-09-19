@@ -4,10 +4,10 @@ import './Rank.css'
 const Rank = ({ name, entries }) => {
     return (
         <div className='position'>
-            <div className=' white f3 '>
+            <div className=' white rank'>
                 {`${name}, your entry count is :`}
             </div>
-            <div className="f2 white">
+            <div className="entry white">
                 {entries}
             </div>
         </div>

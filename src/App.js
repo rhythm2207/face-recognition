@@ -9,8 +9,6 @@ import ImageRecognition from './components/ImageRecognition/ImageRecognition'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 
-
-
 const particleoptions = {
   particles: {
     number: {

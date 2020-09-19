@@ -25,6 +25,8 @@ body {
 
 .button-sign {
   cursor: pointer;
+  width: 50%;
+  margin: 20px auto;
 }
 
 .register {
@@ -36,14 +38,10 @@ body {
 @media (max-width: 900px) {
   .login-form {
     width: 60%;
-    height: 500px;
+    height: 450px;
   }
 
   .type-box {
     width: 90%;
-  }
-
-  .button-register {
-    width: 50%;
   }
 }
