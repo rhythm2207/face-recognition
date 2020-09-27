@@ -8,3 +8,4 @@ For the code :
 2. Run npm init
 3. npm start
 
+For Backend Code : https://github.com/rhythm2207/face-recognition-backend
