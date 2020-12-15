@@ -12,3 +12,13 @@
   position: absolute;
   margin: 0 35%;
 }
+
+.fileUpload {
+}
+
+@media (max-width: 700px) {
+  .image-container {
+    position: absolute;
+    margin: 0 auto;
+  }
+} ;

@@ -8,8 +8,7 @@ import Particles from 'react-particles-js'
 import ImageRecognition from './components/ImageRecognition/ImageRecognition'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
-
-
+import { storage } from './firebase/firebase.utils'
 
 const particleoptions = {
   particles: {
@@ -37,6 +36,9 @@ const initialState = {
   }
 }
 
+// let num = [];
+// let sex = [];
+
 class App extends React.Component {
 
   constructor() {
@@ -52,7 +54,10 @@ class App extends React.Component {
         email: '',
         entries: 0,
         joined: '',
-      }
+      },
+      fileUrl: "",
+      // age: [],
+      // genderList: []
     }
   }
 
@@ -87,8 +92,37 @@ class App extends React.Component {
     return boundingBoxes;
   }
 
+  // calculateAge = (data2) => {
+  //   const ages = data2.outputs[0].data.regions;
+  //   let i = 0;
+  //   ages.forEach(age => {
+  //     num[i] = age.data.concepts[0].name;
+  //     i++
+  //   });
+  //   this.setState({ ageList: num }, () => console.log(this.state.ageList));
+  // }
+
+  // calculateSex = (data3) => {
+  //   const genders = data3.outputs[0].data.regions;
+  //   let i = 0;
+  //   genders.forEach(gender => {
+  //     sex[i] = gender.data.concepts[20].name;
+  //     i++
+  //   });
+  //   this.setState({ genderList: sex }, () => console.log(this.state.genderList));
+  // }
+
   displayFace = (box) => {
-    this.setState({ box: box })
+    this.setState({ box: box }, () => console.log(this.state.box))
+  }
+
+  handleUpload = async event => {
+    const file = event.target.files[0]
+    const storageRef = storage.ref()
+    const fileRef = storageRef.child(file.name)
+    await fileRef.put(file)
+    const url = await fileRef.getDownloadURL()
+    this.setState({ input: url })
   }
 
   onInputChange = (event) => {
@@ -97,8 +131,7 @@ class App extends React.Component {
 
   onButtonSubmit = () => {
     this.setState({ imageurl: this.state.input })
-    console.log(this.state.input);
-    fetch('http://localhost:3000/apicall', {
+    fetch('https://still-plateau-92669.herokuapp.com/apicall', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -107,7 +140,7 @@ class App extends React.Component {
     }).then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('http://localhost:3000/image', {
+          fetch('https://still-plateau-92669.herokuapp.com/image', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -121,6 +154,9 @@ class App extends React.Component {
             .catch(console.log())
         }
         this.displayFace(this.calculateFaceLocation(response))
+        // this.calculateAge(response)
+        // this.calculateSex(response)
+
       }).catch(err => console.log(err));
   }
 
@@ -144,8 +180,9 @@ class App extends React.Component {
             <Navigation onRouteChange={this.onRouteChange} />
             <Logo />
             <Rank name={this.state.user.name} entries={this.state.user.entries} />
-            <ImageForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
-            <ImageRecognition box={this.state.box} imageurl={this.state.imageurl} />
+            <ImageForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} handleUpload={this.handleUpload} />
+
+            <ImageRecognition box={this.state.box} imageurl={this.state.imageurl} genderList={this.state.genderList} ageList={this.state.ageList} />
           </div>
 
           : (this.state.route === 'signin'
