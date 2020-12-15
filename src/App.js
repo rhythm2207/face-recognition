@@ -36,8 +36,8 @@ const initialState = {
   }
 }
 
-let num = [];
-let sex = [];
+// let num = [];
+// let sex = [];
 
 class App extends React.Component {
 
@@ -56,8 +56,8 @@ class App extends React.Component {
         joined: '',
       },
       fileUrl: "",
-      age: [],
-      genderList: []
+      // age: [],
+      // genderList: []
     }
   }
 

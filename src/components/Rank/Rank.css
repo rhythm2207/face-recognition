@@ -1,8 +1,9 @@
 .position {
   width: 60%;
   margin: 0 auto;
+  position: relative;
+  top: -90px;
   text-align: center;
-  /* margin-left: 70px; */
 }
 
 .rank {
