@@ -131,7 +131,7 @@ class App extends React.Component {
 
   onButtonSubmit = () => {
     this.setState({ imageurl: this.state.input })
-    fetch('https://still-plateau-92669.herokuapp.com/apicall', {
+    fetch('https://nameless-falls-31950.herokuapp.com/apicall', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -140,7 +140,7 @@ class App extends React.Component {
     }).then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('https://still-plateau-92669.herokuapp.com/image', {
+          fetch('https://nameless-falls-31950.herokuapp.com/image', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
